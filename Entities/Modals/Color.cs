@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Core.Entities;
 
-namespace Core.Entities
+namespace Entities.Modals
 {
-    public interface IEntity
+    public class Color : IEntity
     {
-        [Key]
         public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? HexCode { get; set; }
     }
 }
