@@ -5,35 +5,66 @@ using System.Text;
 using System.Threading.Tasks;
 using Business.Abstracts;
 using Core.Utilities.Abstracts;
+using Core.Utilities.Concretes;
+using DataAccess.Abstracts;
 using Entities.Modals;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Business.Concretes
 {
     public class ColorManager : IColorService
     {
+        private readonly IColorDal _colorDal;
+        public ColorManager(IColorDal colorDal)
+        {
+            _colorDal = colorDal;
+        }
         public IDataResult<Color> Create(Color entity)
         {
-            throw new NotImplementedException();
+            var color = _colorDal.Create(entity);
+            if (color != null)
+            {
+                return new SuccessDataResult<Color>(color);
+            }
+            return new ErrorDataResult<Color>(color!);
         }
 
         public IResult Update(Color entity)
         {
-            throw new NotImplementedException();
+            _colorDal.Update(entity);
+            return new SuccessDataResult<Color>(entity);  
         }
 
         public IResult Delete(int id)
         {
-            throw new NotImplementedException();
+            var color = _colorDal.Get(t => t.Id == id);
+            if (color != null)
+            {
+                _colorDal.Delete(color);
+                return new SuccessResult();
+            }
+            return new ErrorResult($"Color ID {id} not found");
         }
 
         public IDataResult<Color> Get(int id)
         {
-            throw new NotImplementedException();
+            var data = _colorDal.Get(t => t.Id == id);
+            if (data != null)
+            {
+                return new SuccessDataResult<Color>(data);
+            }
+            return new ErrorDataResult<Color>(data);
         }
 
         public IDataResult<List<Color>> GetAll()
         {
-            throw new NotImplementedException();
+            var data = _colorDal.GetAll();
+            if (data?.Count > 0)
+            {
+                return new SuccessDataResult<List<Color>>(data);
+            }
+
+            return new ErrorDataResult<List<Color>>(data!);
         }
     }
 }

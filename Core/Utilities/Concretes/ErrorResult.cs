@@ -11,5 +11,10 @@ namespace Core.Utilities.Concretes
         public ErrorResult(string message) : base(message, false)
         {
         }
+        public ErrorResult() : base(false)
+        {
+
+        }
+
     }
 }

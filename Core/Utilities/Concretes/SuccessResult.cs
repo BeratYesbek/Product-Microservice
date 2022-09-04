@@ -12,5 +12,10 @@ namespace Core.Utilities.Concretes
         {
 
         }
+
+        public SuccessResult() : base(true)
+        {
+            
+        }
     }
 }

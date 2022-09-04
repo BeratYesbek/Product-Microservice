@@ -17,5 +17,9 @@ namespace Core.Utilities.Concretes
             Success = success;
         }
 
+        public Result(bool success)
+        {
+            Success = success;
+        }
     }
 }
