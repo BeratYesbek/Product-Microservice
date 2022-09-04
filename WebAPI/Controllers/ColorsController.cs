@@ -9,11 +9,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ColorsController : ControllerBase
     {
-       /* private readonly IColorService _colorService;
+        private readonly IColorService _colorService;
         public ColorsController(IColorService colorService)
         {
             _colorService = colorService;
-        }*/
+        }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -21,13 +21,58 @@ namespace WebAPI.Controllers
         [ProducesDefaultResponseType]
         public IActionResult Create(Color color)
         {
-            return Created("", "Merhaba");
 
-            /* var result = _colorService.Create(color);
-             if (result.Success)
-             {
-             }
-             return BadRequest(result);*/
+            var result = _colorService.Create(color);
+            if (result.Success)
+            {
+                return Created("", color);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public IActionResult Update(Color color)
+        {
+            var result = _colorService.Update(color);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpDelete("/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public IActionResult Delete(int id)
+        {
+            var result = _colorService.Delete(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public IActionResult GetAll()
+        {
+            var result = _colorService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
         }
     }
 }
