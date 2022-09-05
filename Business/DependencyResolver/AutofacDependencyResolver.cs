@@ -3,6 +3,7 @@ using Castle.DynamicProxy;
 using Autofac.Extras.DynamicProxy;
 using Business.Abstracts;
 using Business.Concretes;
+using Core.Utilities.Cloud.AwsService;
 using Core.Utilities.Interceptors;
 using DataAccess.Abstracts;
 using DataAccess.Concretes;
@@ -22,6 +23,8 @@ namespace Business.DependencyResolver
 
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
+
+            builder.RegisterType<S3AwsManager>().As<IS3AwsService>().SingleInstance();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

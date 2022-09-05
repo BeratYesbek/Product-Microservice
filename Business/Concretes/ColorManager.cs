@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business.Abstracts;
+﻿using Business.Abstracts;
 using Core.Utilities.Abstracts;
 using Core.Utilities.Concretes;
 using DataAccess.Abstracts;
 using Entities.Modals;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Business.Concretes
 {
@@ -63,7 +57,6 @@ namespace Business.Concretes
             {
                 return new SuccessDataResult<List<Color>>(data);
             }
-
             return new ErrorDataResult<List<Color>>(data!);
         }
     }
