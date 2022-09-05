@@ -50,22 +50,35 @@ namespace Business.Concretes
 
         public IResult Update(Product entity)
         {
-           
+            _productDal.Update(entity);
+            return new SuccessResult();
         }
 
         public IResult Delete(int id)
         {
-            throw new NotImplementedException();
+            var product = _productDal.Get(t => t.Id == id);
+            if (product != null)
+            {
+                var images = _imageService.GetAllByProductId(product.Id);
+                foreach (var image in images.Data!)
+                {
+                    _imageService.Delete(image.Id);
+                }
+                _productDal.Delete(product);
+                return new SuccessResult();
+            }
+            return new ErrorResult();
         }
 
         public IDataResult<Product> Get(int id)
         {
-            throw new NotImplementedException();
+            var item = _productDal.Get(t => t.Id == id);
+            return new SuccessDataResult<Product>(item!);
         }
 
         public IDataResult<List<Product>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll()!);
         }
 
 

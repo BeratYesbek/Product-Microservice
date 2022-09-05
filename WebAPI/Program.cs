@@ -12,21 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacDependencyResolver()));
 
-/*
-var awsConfiguration = new AwsServiceConfiguration();
-var awsSettingsSection = builder.Configuration.GetSection("AwsS3Configuration");
-awsSettingsSection.Bind(awsConfiguration);
-var awsOptions = new AWSOptions
-{
-    Credentials = new BasicAWSCredentials(awsConfiguration.AccessKey, awsConfiguration.SecretKey),
-    Region = RegionEndpoint.GetBySystemName(awsConfiguration.Region)
-};
-builder.Services.AddAWSService<IAmazonS3>(awsOptions);
-builder.Services.Configure<AwsServiceConfiguration>(awsSettingsSection);
-*/
 
 builder.Services.AddAwsS3Service(builder.Configuration);
-
+builder.Services.AddAutoMapper(typeof(Program));
 // Add services to the container.
 
 builder.Services.AddControllers();

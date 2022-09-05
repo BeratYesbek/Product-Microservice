@@ -24,6 +24,9 @@ namespace Business.DependencyResolver
             builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
             builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
 
+            builder.RegisterType<ProductImageManager>().As<IProductImageService>().SingleInstance();
+            builder.RegisterType<EfProductImageDal>().As<IProductImageDal>().SingleInstance();
+
             builder.RegisterType<S3AwsManager>().As<IS3AwsService>().SingleInstance();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();

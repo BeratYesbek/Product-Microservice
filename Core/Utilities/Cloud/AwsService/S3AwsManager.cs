@@ -8,6 +8,7 @@ using Amazon.S3.Model;
 using Core.Utilities.Abstracts;
 using Core.Utilities.Cloud.Entities;
 using Core.Utilities.Concretes;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace Core.Utilities.Cloud.AwsService
@@ -16,10 +17,11 @@ namespace Core.Utilities.Cloud.AwsService
     {
         private readonly IAmazonS3 _s3;
         private readonly AwsServiceConfiguration _awsSettings;
-        public S3AwsManager(IAmazonS3 s3, IOptions<AwsServiceConfiguration> awsSettings)
+        public S3AwsManager(IAmazonS3 s3, IConfiguration configuration)
         {
             _s3 = s3;
-            _awsSettings = awsSettings.Value;
+            _awsSettings = new AwsServiceConfiguration();
+            configuration.GetSection("AwsS3Configuration").Bind(_awsSettings);
         }
         public S3File Upload(S3File cloudEntity)
         {
@@ -40,7 +42,8 @@ namespace Core.Utilities.Cloud.AwsService
                 BucketName = _awsSettings.BucketName,
                 ContentType = cloudEntity.File?.ContentType
             };
-
+            var url = $"https://{_awsSettings.BucketName}.s3.{_awsSettings.Region}.{_awsSettings.AwsUrl}/{key}";
+            cloudEntity.Url = url;
             var response = await _s3.PutObjectAsync(uploadRequest);
 
             if (response.HttpStatusCode == System.Net.HttpStatusCode.OK)
